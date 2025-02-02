@@ -48,12 +48,15 @@ For Software:
 
 # Screenshots (Add at least 3)
 ![Screenshot1](Add screenshot 1 here with proper name)
+![Image](https://github.com/user-attachments/assets/35f3604c-e8df-415a-99e8-10bfb594fec4)
 *Add caption explaining what this shows*
 
 ![Screenshot2](Add screenshot 2 here with proper name)
+![Image](https://github.com/user-attachments/assets/8c0a7bf6-9920-482f-a9ad-9d2c9c9a6759)
 *Add caption explaining what this shows*
 
 ![Screenshot3](Add screenshot 3 here with proper name)
+![Image](https://github.com/user-attachments/assets/71f0a3d9-50a9-43a4-8c4b-6cf0f6bb57dc)
 *Add caption explaining what this shows*
 
 # Diagrams
