@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartSpend - Spend Wisely</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(45deg, #f5f5f5, #e0e0e0);
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        h1, h2, h3 {
+            color: #424242;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        .login-form, .signup-form {
+            text-align: center;
+            padding: 20px;
+            background: #fafafa;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        input {
+            padding: 12px;
+            margin: 8px;
+            width: 250px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            border-color: #757575;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+
+        button {
+            padding: 12px 24px;
+            margin: 8px;
+            background-color: #757575;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #616161;
+            transform: translateY(-2px);
+        }
+
+        .nav-menu {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            padding: 10px;
+            background: #757575;
+            border-radius: 10px;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        .nav-item {
+            cursor: pointer;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item:hover {
+            background: #fff;
+            transform: translateY(-2px);
+        }
+
+        .section {
+            display: none;
+            padding: 20px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .expense-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+
+        .calendar-day {
+            padding: 15px;
+            text-align: center;
+            background: #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .calendar-day:hover {
+            background: #bdbdbd;
+            transform: scale(1.05);
+        }
+
+        #expensePopup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.2);
+            z-index: 1000;
+            animation: popIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="loginForm" class="login-form">
+            <h1>SmartSpend - Spend Wisely</h1>
+            <input type="text" id="username" placeholder="Username"><br>
+            <input type="password" id="password" placeholder="Password"><br>
+            <button onclick="login()">Login</button>
+            <p>Don't have an account? <a href="#" onclick="showSignup()">Sign Up</a></p>
+        </div>
+
+        <div id="signupForm" class="signup-form" style="display: none;">
+            <h1>Sign Up</h1>
+            <input type="text" id="newUsername" placeholder="Username"><br>
+            <input type="password" id="newPassword" placeholder="Password"><br>
+            <button onclick="signup()">Sign Up</button>
+            <p>Already have an account? <a href="#" onclick="showLogin()">Login</a></p>
+        </div>
+
+        <div id="dashboard" style="display: none;">
+            <div class="nav-menu">
+                <div class="nav-item" onclick="showSection('home')">🏠 Home</div>
+                <div class="nav-item" onclick="showSection('expenses')">💰 Expenses</div>
+                <div class="nav-item" onclick="showSection('chart')">📊 Chart</div>
+                <div class="nav-item" onclick="showSection('history')">📅 History</div>
+            </div>
+
+            <div id="homeSection" class="section">
+                <h2>Total Balance</h2>
+                <input type="number" id="totalAmount" placeholder="Enter total amount">
+                <button onclick="saveTotal()">Save</button>
+                <h3>Available Balance: ₹<span id="availableBalance">0</span></h3>
+            </div>
+
+            <div id="expensesSection" class="section">
+                <h2>Add Expenses</h2>
+                <div class="expense-grid">
+                    <div>
+                        <input type="number" id="tuition" placeholder="Tuition Fee">
+                        <button onclick="addExpense('tuition')">Add</button>
+                    </div>
+                    <div>
+                        <input type="number" id="rent" placeholder="Rent">
+                        <button onclick="addExpense('rent')">Add</button>
+                    </div>
+                    <div>
+                        <input type="number" id="food" placeholder="Food">
+                        <button onclick="addExpense('food')">Add</button>
+                    </div>
+                    <div>
+                        <input type="number" id="travel" placeholder="Travel">
+                        <button onclick="addExpense('travel')">Add</button>
+                    </div>
+                    <div>
+                        <input type="number" id="entertainment" placeholder="Entertainment">
+                        <button onclick="addExpense('entertainment')">Add</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="chartSection" class="section">
+                <canvas id="expenseChart"></canvas>
+            </div>
+
+            <div id="historySection" class="section">
+                <h2 id="currentMonth"></h2>
+                <div class="calendar" id="calendar"></div>
+            </div>
+        </div>
+
+        <div id="expensePopup">
+            <h3 id="popupDate"></h3>
+            <div id="popupContent"></div>
+            <button onclick="closePopup()">Close</button>
+        </div>
+    </div>
+
+    <script>
+        let totalAmount = 0;
+        let expenses = {
+            tuition: 0,
+            rent: 0,
+            food: 0,
+            travel: 0,
+            entertainment: 0
+        };
+        let expenseHistory = {};
+
+        function showSignup() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('signupForm').style.display = 'block';
+        }
+
+        function showLogin() {
+            document.getElementById('signupForm').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'block';
+        }
+
+        function signup() {
+            const username = document.getElementById('newUsername').value;
+            const password = document.getElementById('newPassword').value;
+            
+            if (username && password) {
+                localStorage.setItem('username', username);
+                localStorage.setItem('password', password);
+                alert('Sign up successful! You can now log in.');
+                showLogin();
+            } else {
+                alert('Please fill in all fields');
+            }
+        }
+
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const storedUsername = localStorage.getItem('username');
+            const storedPassword = localStorage.getItem('password');
+
+            if (username === storedUsername && password === storedPassword) {
+                document.getElementById('loginForm').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'block';
+                showSection('home');
+            } else {
+                alert('Invalid username or password');
+            }
+        }
+
+        function showSection(section) {
+            document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+            document.getElementById(section + 'Section').style.display = 'block';
+
+            if (section === 'chart') {
+                updateChart();
+            } else if (section === 'history') {
+                generateCalendar();
+            }
+        }
+
+        function saveTotal() {
+            const amount = parseFloat(document.getElementById('totalAmount').value);
+            if (!isNaN(amount)) {
+                totalAmount = amount;
+                updateBalance();
+                document.getElementById('totalAmount').value = '';
+            }
+        }
+
+        function updateBalance() {
+            const totalExpenses = Object.values(expenses).reduce((a, b) => a + b, 0);
+            const balance = totalAmount - totalExpenses;
+            document.getElementById('availableBalance').textContent = balance.toFixed(2);
+        }
+
+        function addExpense(type) {
+            const amount = parseFloat(document.getElementById(type).value);
+            if (!isNaN(amount) && amount > 0) {
+                expenses[type] += amount;
+                updateBalance();
+                saveExpenseHistory(type, amount);
+                document.getElementById(type).value = '';
+                updateChart();
+            }
+        }
+
+        function saveExpenseHistory(type, amount) {
+            const today = new Date().toISOString().split('T')[0];
+            if (!expenseHistory[today]) {
+                expenseHistory[today] = {};
+            }
+            if (!expenseHistory[today][type]) {
+                expenseHistory[today][type] = 0;
+            }
+            expenseHistory[today][type] += amount;
+        }
+
+        let chart = null;
+        function updateChart() {
+            const ctx = document.getElementById('expenseChart').getContext('2d');
+            
+            if (chart) {
+                chart.destroy();
+            }
+
+            chart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: Object.keys(expenses).map(key => key.charAt(0).toUpperCase() + key.slice(1)),
+                    datasets: [{
+                        data: Object.values(expenses),
+                        backgroundColor: [
+                            '#757575',
+                            '#9E9E9E',
+                            '#BDBDBD',
+                            '#E0E0E0',
+                            '#EEEEEE'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        function generateCalendar() {
+            const date = new Date();
+            const month = date.getMonth();
+            const year = date.getFullYear();
+            
+            const monthNames = ["January", "February", "March", "April", "May", "June",
+                               "July", "August", "September", "October", "November", "December"];
+            
+            document.getElementById('currentMonth').textContent = `${monthNames[month]} ${year}`;
+            
+            const calendar = document.getElementById('calendar');
+            calendar.innerHTML = '';
+            
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            
+            for (let i = 1; i <= daysInMonth; i++) {
+                const day = document.createElement('div');
+                day.className = 'calendar-day';
+                day.textContent = i;
+                day.onclick = () => showDayExpenses(i, month, year);
+                calendar.appendChild(day);
+            }
+        }
+
+        function showDayExpenses(day, month, year) {
+            const formattedDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            const dayExpenses = expenseHistory[formattedDate] || {};
+            
+            const popup = document.getElementById('expensePopup');
+            const monthNames = ["January", "February", "March", "April", "May", "June",
+                               "July", "August", "September", "October", "November", "December"];
+            
+            document.getElementById('popupDate').textContent = `${monthNames[month]} ${day}, ${year}`;
+            
+            let content = '';
+            let total = 0;
+            
+            for (const [category, amount] of Object.entries(dayExpenses)) {
+                content += `<p>${category.charAt(0).toUpperCase() + category.slice(1)}: ₹${amount.toFixed(2)}</p>`;
+                total += amount;
+            }
+            
+            if (content === '') {
+                content = '<p>No expenses recorded for this day</p>';
+            } else {
+                content += `<p><strong>Total: ₹${total.toFixed(2)}</strong></p>`;
+            }
+            
+            document.getElementById('popupContent').innerHTML = content;
+            popup.style.display = 'block';
+        }
+
+        function closePopup() {
+            document.getElementById('expensePopup').style.display = 'none';
+        }
+
+        // Initialize with home section
+        showSection('home');
+    </script>
+</body>
+</html>
