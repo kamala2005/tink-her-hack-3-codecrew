@@ -1,34 +1,34 @@
-# [Project Name] 🎯
+# SmartSpend 🎯
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: CodeCrew
 
 
 ### Team Members
-- Member 1: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Member 1: Kamala K - Model Engineering College
+- Member 2: Mariya Joy - Model Engineering College
+- Member 3: Zeba Samad - Model Engineering College
 
 ### Hosted Project Link
-[mention your project hosted project link here]
+https://kamala2005.github.io/SmartSpend./#
 
 ### Project Description
-[2-3 lines about what your project does]
+SmartSpend is an expense tracker app which helps students to track their expenses daily.Students can enter total amount and it will be updated every time a user enters an amount they spend.Users can get an idea about spending habits using pie chart. It can show the expenses of each in the respective months.
 
 ### The Problem statement
-[What ridiculous problem are you solving?]
+Money Management
 
 ### The Solution
-[How are you solving it? Keep it fun!]
+By using the app we are daily catogorizing our expenses and we get to know about how much we spend a day. So we become more aware in money management and will try to limit our expenses to necessary needs.
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
+- html,css,javascript
+- none
+- chart.js
+- local storage(Web API),css animation
 
 For Hardware:
 - [List main components]
