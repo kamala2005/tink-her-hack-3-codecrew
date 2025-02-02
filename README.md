@@ -14,10 +14,12 @@
 https://kamala2005.github.io/SmartSpend./#
 
 ### Project Description
-SmartSpend is an expense tracker app which helps students to track their expenses daily.Students can enter total amount and it will be updated every time a user enters an amount they spend.Users can get an idea about spending habits using pie chart. It can show the expenses of each in the respective months.
+SmartSpend is an expense tracker app which helps students to track their expenses daily.Students can enter total amount and it will be updated every time a user enters an amount they spend.Users can get an idea about spending habits using pie chart. The app will show the expenses of each item daily.
 
 ### The Problem statement
-Money Management
+People often struggle with managing their finances and keeping track of their spending. 
+
+
 
 ### The Solution
 By using the app we are daily catogorizing our expenses and we get to know about how much we spend a day. So we become more aware in money management and will try to limit our expenses to necessary needs.
@@ -30,18 +32,8 @@ For Software:
 - chart.js
 - local storage(Web API),css animation
 
-For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
 
-### Implementation
-For Software:
-# Installation
-[commands]
 
-# Run
-[commands]
 
 ### Project Documentation
 For Software:
@@ -49,54 +41,30 @@ For Software:
 # Screenshots (Add at least 3)
 ![Screenshot1](Add screenshot 1 here with proper name)
 ![Image](https://github.com/user-attachments/assets/35f3604c-e8df-415a-99e8-10bfb594fec4)
-*Add caption explaining what this shows*
+Login page
 
 ![Screenshot2](Add screenshot 2 here with proper name)
 ![Image](https://github.com/user-attachments/assets/8c0a7bf6-9920-482f-a9ad-9d2c9c9a6759)
-*Add caption explaining what this shows*
+Home page
 
 ![Screenshot3](Add screenshot 3 here with proper name)
 ![Image](https://github.com/user-attachments/assets/71f0a3d9-50a9-43a4-8c4b-6cf0f6bb57dc)
-*Add caption explaining what this shows*
-
-# Diagrams
-![Workflow](Add your workflow/architecture diagram here)
-*Add caption explaining your workflow*
-
-For Hardware:
-
-# Schematic & Circuit
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
-
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
-
-# Build Photos
-![Team](Add photo of your team here)
+Categorizing expenses
 
 
-![Components](Add photo of your components here)
-*List out all components shown*
 
-![Build](Add photos of build process here)
-*Explain the build steps*
 
-![Final](Add photo of final product here)
-*Explain the final build*
 
 ### Project Demo
 # Video
-[Add your demo video link here]
-*Explain what the video demonstrates*
+https://youtu.be/98cNZW3LI0s
+It shows the working of SmartSpend.First the user will sign up then the home page will open where we can enter our total amount. It also displays the available balance.After that we will go to the expense page by clicking on the icon expenses where we can enter the amount that we had spend for each item.There are pie chart and history icons also.When we click pie chart we get a pie chart that shows our daily expenses.When clicked on the history icon it will display the calendar of the corresponding month where we can access the total expense of each day by clicking on each dates.That's it,this is our simple expense tracker.
 
-# Additional Demos
-[Add any extra demo materials/links]
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
+- Kamala K: Documentation
+- Mariya Joy: Integration and testing
+- Zeba Samad: Frontend
 
 ---
 Made with ❤️ at TinkerHub
